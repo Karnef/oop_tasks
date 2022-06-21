@@ -19,7 +19,7 @@ class Menu
     8 ----- Move the train
     9 ----- View the list of stations and the list of trains at the station
     10 ----- Exit"
-    
+
     puts hello
   end
   
@@ -31,15 +31,15 @@ class Menu
       selection = gets.to_i
   
       case selection
-      when 1 then send(:create_station)
-      when 2 then send(:create_route)
-      when 3 then send(:add_station)
-      when 4 then send(:create_train)
-      when 5 then send(:remove_station_menu)
-      when 6 then send(:add_wagon_menu)
-      when 7 then send(:remove_wagon)
-      when 8 then send(:move)
-      when 9 then send(:show_current_objects)
+      when 1 then :create_station
+      when 2 then :create_route
+      when 3 then :add_station
+      when 4 then :create_train
+      when 5 then :remove_station_menu
+      when 6 then :add_wagon_menu
+      when 7 then :remove_wagon
+      when 8 then :move
+      when 9 then :show_current_objects
       when 10 
         puts "Bye"
         status = false
@@ -47,6 +47,8 @@ class Menu
     end
   end
   
+  private
+
   def create_station
     puts "Enter the station name:"
     st_name = gets.chomp
@@ -81,7 +83,6 @@ class Menu
     return "Added start and end stations" if @created_route.empty?
 
       @mid_stations = @created_stations[1..-2]
-
       puts "You can add this stations"
       @mid_stations.each_with_index do |st, i|
         puts "#{i + 1} -- #{st}"
@@ -94,11 +95,9 @@ class Menu
       @created_route.each_with_index do |st, i|
         puts "#{i + 1} -- #{st}"
       end
-
       choosed_route = gets.chomp.to_i
 
       @created_route[choosed_route - 1].add_middle_st(@mid_stations[choise_mid_st])
-
       puts @created_route
   end
 
@@ -153,11 +152,11 @@ class Menu
     #type_train_and_wagon = @created_trains[choosed_add_wagon - 1].type 
 
     if @created_trains[choosed_add_wagon - 1].type == "passengers"
-      @wagon = PassengerWagon.new
-      @created_trains[choosed_add_wagon - 1].add_wagon(@wagon)
+      wagon = PassengerWagon.new
+      @created_trains[choosed_add_wagon - 1].add_wagon(wagon)
     elsif @created_trains[choosed_add_wagon - 1].type == "cargo"
-      @wagon = CargoWagon.new
-      @created_trains[choosed_add_wagon - 1].add_wagon(@wagon)
+      wagon = CargoWagon.new
+      @created_trains[choosed_add_wagon - 1].add_wagon(wagon)
     else
       puts "err"
     end
@@ -170,7 +169,7 @@ class Menu
     end
     choosed_remove_wag = gets.chomp.to_i
     
-    @created_trains[choosed_remove_wag - 1].delete_wagon(@wagon)
+    @created_trains[choosed_remove_wag - 1].delete_wagon(wagon)
     puts "Wagon has been removed"
   end
 
