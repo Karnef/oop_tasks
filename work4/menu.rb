@@ -31,15 +31,15 @@ class Menu
       selection = gets.to_i
   
       case selection
-      when 1 then :create_station
-      when 2 then :create_route
-      when 3 then :add_station
-      when 4 then :create_train
-      when 5 then :remove_station_menu
-      when 6 then :add_wagon_menu
-      when 7 then :remove_wagon
-      when 8 then :move
-      when 9 then :show_current_objects
+      when 1 then create_station
+      when 2 then create_route
+      when 3 then add_station
+      when 4 then create_train
+      when 5 then remove_station_menu
+      when 6 then add_wagon_menu
+      when 7 then remove_wagon
+      when 8 then move
+      when 9 then show_current_objects
       when 10 
         puts "Bye"
         status = false
@@ -169,7 +169,9 @@ class Menu
     end
     choosed_remove_wag = gets.chomp.to_i
     
-    @created_trains[choosed_remove_wag - 1].delete_wagon(wagon)
+    puts "Select wagon to remove"
+
+    @created_trains[choosed_remove_wag - 1].delete_wagon
     puts "Wagon has been removed"
   end
 

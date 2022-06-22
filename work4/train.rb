@@ -15,8 +15,8 @@ class Train
     @wagons << wagon if @current_speed.zero? && @type == wagon.type
   end 
 
-  def delete_wagon(wagon)
-    @wagons.delete(wagon)  
+  def delete_wagon
+    @wagons.pop 
   end
 
   def current_num_wagons
