@@ -10,7 +10,7 @@ class Train
   
   @@created_trains = []
   
-  def initialize(number, route)
+  def initialize(number)
     @number = number
     @route = route
     @current_speed = 0

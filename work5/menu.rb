@@ -1,10 +1,9 @@
 class Menu
-    attr_reader :created_train, :created_route, :created_stations
+    attr_reader :created_train, :created_route
     
     def initialize
       @created_trains = []
       @created_route = []
-      @created_stations = []
     end
      
   def start
@@ -53,16 +52,16 @@ class Menu
     puts "Enter the station name:"
     st_name = gets.chomp
       
-    @created_stations.push(Station.new(st_name))
+    Station.all.push(Station.new(st_name))
   
-    puts "All stations: #{@created_stations}"
+    puts "All stations: #{Station.all}"
   end
 
   def create_route
     puts "You have these stations:"
   
-    if @created_stations.size >= 2
-      @created_stations.each_with_index do |st, i| 
+    if Station.all.size >= 2
+      Station.all.each_with_index do |st, i| 
         puts "#{i + 1} -- #{st.st_name}" 
       end
 
@@ -72,7 +71,7 @@ class Menu
       puts "Choose a end station"
       end_station = gets.chomp.to_i
     
-      @created_route << Route.new(@created_stations[start_station], @created_stations[end_station])
+      @created_route << Route.new(Station.all[start_station], Station.all[end_station])
       puts "Your route: #{@created_route}\nNow you can add other stations to the route"
     else
       puts "Add another station"
@@ -82,7 +81,7 @@ class Menu
   def add_station
     return "Added start and end stations" if @created_route.empty?
 
-      @mid_stations = @created_stations[1..-2]
+      @mid_stations = Station.all[1..-2]
       puts "You can add this stations"
       @mid_stations.each_with_index do |st, i|
         puts "#{i + 1} -- #{st}"
@@ -130,7 +129,7 @@ class Menu
     return "You need add station" if @created_route.size == 0
     
     puts "Choose station for removing"
-    @created_stations.each_with_index do |st, i|
+    Station.all.each_with_index do |st, i|
       puts "#{i + 1} -- #{st}"
     end
     choosed_remove_st = gets.chomp.to_i
@@ -141,7 +140,7 @@ class Menu
       end
     choosed_route_rem = gets.chomp.to_i
 
-    @created_route[choosed_route_rem - 1].remove_station(@created_stations[choosed_remove_st - 1])
+    @created_route[choosed_route_rem - 1].remove_station(Station.all[choosed_remove_st - 1])
     puts "Station has been removed"
   end
 
@@ -199,8 +198,8 @@ class Menu
       puts "Train:\n#{tr}"
     end
 
-    @created_stations.each do |st|
-      puts "Station: #{st.st_name}" 
+    Station.all.each do |st|
+      puts "Station: #{Station.all}" 
     end
   end
 end
