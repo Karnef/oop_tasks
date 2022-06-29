@@ -2,7 +2,6 @@ class Menu
     attr_reader :created_train, :created_route
     
     def initialize
-      @created_trains = []
       @created_route = []
     end
      
@@ -118,11 +117,9 @@ class Menu
         case type_train
         when 1
           @train = PassengerTrain.new(num_train, @created_route[choosed_route_tr])
-          @created_trains << PassengerTrain.new(num_train, @created_route[choosed_route_tr])
           puts "Passenger train has been created" if @train.valid?
         when 2
           @train = CargoTrain.new(num_train, @created_route[choosed_route_tr])
-          @created_trains << CargoTrain.new(num_train, @created_route[choosed_route_tr])
           puts "Cargo train has been created" if @train.valid?
         end
 
@@ -153,17 +150,17 @@ class Menu
 
   def add_wagon_menu
     puts "Select a train to add a wagon"
-    @created_trains.each_with_index do |tr, i|
+    Train.all.each_with_index do |tr, i|
       puts "#{i + 1} -- #{tr}"
     end
     choosed_add_wagon = gets.chomp.to_i
 
-    if @created_trains[choosed_add_wagon - 1].type == "passengers"
+    if Train.all[choosed_add_wagon - 1].type == "passengers"
       wagon = PassengerWagon.new
-      @created_trains[choosed_add_wagon - 1].add_wagon(wagon)
-    elsif @created_trains[choosed_add_wagon - 1].type == "cargo"
+      Train.all[choosed_add_wagon - 1].add_wagon(wagon)
+    elsif Train.all[choosed_add_wagon - 1].type == "cargo"
       wagon = CargoWagon.new
-      @created_trains[choosed_add_wagon - 1].add_wagon(wagon)
+      Train.all[choosed_add_wagon - 1].add_wagon(wagon)
     else
       puts "err"
     end
@@ -171,14 +168,14 @@ class Menu
  
   def remove_wagon
     puts "Select the train to which you want to remove a wagon"
-    @created_trains.each_with_index do |tr, i|
+    Train.all.each_with_index do |tr, i|
       puts "#{i + 1} -- #{tr}"
     end
     choosed_remove_wag = gets.chomp.to_i
     
     puts "Select wagon to remove"
 
-    @created_trains[choosed_remove_wag - 1].delete_wagon
+    Train.all[choosed_remove_wag - 1].delete_wagon
     puts "Wagon has been removed"
   end
 
@@ -187,26 +184,22 @@ class Menu
     choosed_move = gets.chomp.to_i
 
     puts "Choose a train to move"
-    @created_trains.each_with_index do |tr, i|
+    Train.all.each_with_index do |tr, i|
       puts "#{i + 1} -- #{tr}"
     end
     choosed_move_tr = gets.chomp.to_i
 
     case choosed_move
-    when 1 then @created_trains[choosed_move_tr - 1].up_action
-    when 2 then @created_trains[choosed_move_tr - 1].down_action
+    when 1 then Train.all[choosed_move_tr - 1].up_action
+    when 2 then Train.all[choosed_move_tr - 1].down_action
     end
   end
 
   def show_current_objects
-    @created_trains.each do |tr| 
-      puts "Train:\n#{tr}"
-    end
+    puts Train.all
 
-    Station.all.each do |st|
-      puts "Station: #{Station.all}" 
-    end
+    puts Station.all
 
-    @created_route
+    puts @created_route
   end
 end

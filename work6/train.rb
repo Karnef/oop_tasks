@@ -10,22 +10,26 @@ class Train
 
   NUMBER_TRAIN_FORMAT = /^[a-z\d]{3}-*[a-z\d]{2}$/i
   
-  @@created_trains = []
+  @@all = []
   
+  def self.all
+    @@all  
+  end
+
   def initialize(number, route)
     @number = number
     @route = route
+    validate!
     @current_speed = 0
-    @stations_straight = $all_stations
+    @stations_straight = @all_stations
     @current_station = 0
     @wagons = []
-    @@created_trains << self
-    validate!
+    @@all << self
     register_instance
   end
   
   def self.find(number)
-    @@created_trains.find {|tr| tr.number == number}
+    Train.all.find {|tr| tr.number == number}
   end
 
   def add_wagon(wagon)
