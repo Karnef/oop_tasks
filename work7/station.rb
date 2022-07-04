@@ -34,23 +34,9 @@ class Station
   
     @all_trains.delete(train)
   end 
-  
-  def self.each_trains(&b)
-    if block_given?
-      yield(@all_trains)
-    end
 
-    puts "Choose a station"
-    Station.all.each_with_index do |st, i|
-      puts "#{i + 1} -- #{st}"
-    end
-    choosed_st = gets.chomp.to_i
-    
-    return if Station.all[choosed_st - 1].all_trains.size == 0
-  
-    Station.all[choosed_st - 1].all_trains.each do |st|
-      b.call(st)
-    end
+  def each_trains(&b)
+    @all_trains.each { |tr| yield tr }
   end
 
   def valid?

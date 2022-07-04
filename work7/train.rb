@@ -80,19 +80,8 @@ class Train
     {current_station:  @current_station}
   end
 
-  def self.each_wagons(&b)
-    if block_given?
-      yield(@wagons)
-    end
-    puts "Choose a train"
-    @@all.each_with_index do |tr, i|
-      puts "#{i + 1} -- #{tr}"
-    end
-    choosed_train = gets.chomp.to_i
-  
-    @@all[choosed_train - 1].wagons.each do |wag|
-      b.call(wag)
-    end
+  def each_wagons(&b)
+    @wagons.each { |wag| yield wag }
   end
 
   def valid?

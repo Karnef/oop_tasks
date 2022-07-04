@@ -43,9 +43,9 @@ class Menu
       when 7 then remove_wagon
       when 8 then move
       when 9 then show_current_objects
-      when 10 then Train.each_wagons { |wag| puts wag }
+      when 10 then wagons_at_train
       when 11 then add_train_in_st
-      when 12 then Station.each_trains { |st| puts st }
+      when 12 then trains_at_station
       when 13 then take_wag_seat
       when 14 then take_wag_vol
       when 15
@@ -56,6 +56,26 @@ class Menu
   end
   
   private
+
+  def wagons_at_train
+    Train.all.each do |tr|
+      puts "Train: #{tr}"
+
+      tr.each_wagons do |wag|
+        puts "#{wag}"
+      end
+    end
+  end
+
+  def trains_at_station
+    Station.all.each do |st|
+      puts "Station: #{st}"
+
+      st.each_trains do |tr|
+        puts "#{tr}"
+      end
+    end
+  end
 
   def take_wag_seat
     puts "Choose a wagon"
